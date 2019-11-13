@@ -59,13 +59,15 @@ def account():
 		# user = db.execute("SELECT * FROM USERS WHERE email = :emailaddress AND password = crypt(:password, password)",
 		# 	{"emailaddress": emailaddress, "password": password}).fetchone()
 		if user_found is None:
-			return render_template("index.html", message = "Incorrect Email and/or Password")
+			return render_template("index.html", 
+				message = "Incorrect Email and/or Password")
 		elif user_found.check_password(request.form.get("password")):
 			session['username'] = current_user.email
 			return render_template("account.html", emailaddress= session['username'], 
 				value="Welcome back to your account")
 		else:
-			return render_template("index.html", message = "Incorrect Email and/or Password")			
+			return render_template("index.html", 
+				message = "Incorrect Email and/or Password")			
 
 @app.route("/logout", methods = ["POST"])
 def logout():
@@ -82,7 +84,8 @@ def search():
 		Book.title.like(searchquery), Book.author.like(searchquery))).all()	
 	# results = db.execute("SELECT * FROM BOOKS WHERE (isbn like :searchquery) OR (title like :searchquery) OR (author like :searchquery)", 
 	# 	{"searchquery": searchquery}).fetchall()
-	return render_template("account.html", emailaddress = session['username'], results = results)
+	return render_template("account.html", emailaddress = session['username'], 
+		results = results)
 
 @app.route("/book/<string:isbn>", methods = ["POST", "GET"])
 def book(isbn):

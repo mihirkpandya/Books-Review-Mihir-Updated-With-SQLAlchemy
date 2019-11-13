@@ -7,14 +7,14 @@ Book
 {% block body %}
 
 {% if result %}
-<div class="container text-secondary mt-2">
-<h3>ISBN: {{result.isbn}}</h3>
-<h3>Title: {{result.title}}</h3>
-<h3>Author: {{result.author}}</h3>
-<h3>Publication: {{result.year}}</h3>
-<h3>Ratings Received on goodreads.com: {{data["books"][0]["ratings_count"]}}</h3>
-<h3>Average Rating Received on goodreads.com: {{data["books"][0]["average_rating"]}}</h3>
-</div>
+  <div class="container text-secondary mt-2">
+  <h3>ISBN: {{result.isbn}}</h3>
+  <h3>Title: {{result.title}}</h3>
+  <h3>Author: {{result.author}}</h3>
+  <h3>Publication: {{result.year}}</h3>
+  <h3>Ratings Received on goodreads.com: {{data["books"][0]["ratings_count"]}}</h3>
+  <h3>Average Rating Received on goodreads.com: {{data["books"][0]["average_rating"]}}</h3>
+  </div>
 
   {% if reviewed %}
 <!--   <ul>
@@ -24,43 +24,40 @@ Book
 
   </ul> -->
   {% else %}
-  <div class="container mt-5">
-  <form action="{{ url_for('book', isbn = result.isbn)}}" method="post">
-      <div class="form-group">
-        <label for="exampleFormControlSelect1">Rating</label>
-        <select class="form-control" name = "rating" id="exampleFormControlSelect1">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </select>
-      </div>
-       <div class="form-group">
-      <label for="exampleFormControlTextarea1">Review</label>
-      <textarea class="form-control" name="review" id="exampleFormControlTextarea1" rows="3"></textarea>
-      </div>
-      <button type="submit" name="submit" value="review" class="btn btn-success">Submit Review</button>
-    </form> 
-  </div>
+    <div class="container mt-5">
+      <form action="{{ url_for('book', isbn = result.isbn)}}" method="post">
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Rating</label>
+          <select class="form-control" name = "rating" id="exampleFormControlSelect1">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Review</label>
+          <textarea class="form-control" name="review" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <button type="submit" name="submit" value="review" class="btn btn-success">Submit Review</button>
+      </form> 
+    </div>
   {% endif %}
   <div class="container bg-light mt-5">
     <h3>All Reviews</h3>
-  {% for review in reviews %}
-  <div class="container bg-light">
-
-    <strong>Review By: {{review.user_email}}</strong>
-    <ul>  
-      <li><em>Rating:</em> {{review.rating}}</li>
-      <li><em>Comment:</em> {{review.review}}</li>
-    </ul>
-
+    {% for review in reviews %}
+      <div class="container bg-light">
+        <strong>Review By: {{review.user_email}}</strong>
+        <ul>  
+          <li><em>Rating:</em> {{review.rating}}</li>
+          <li><em>Comment:</em> {{review.review}}</li>
+        </ul>
+      </div>
+    {% endfor %}
   </div>
-
-  {% endfor %}
-</div>
 {% else %}
-<h1>This book doesn't exist</h1>
+  <h1>This book doesn't exist</h1>
 
 {% endif %}
 
