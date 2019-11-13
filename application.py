@@ -31,8 +31,8 @@ def index():
 
 @app.route("/account" , methods = ["POST"])
 def account():
-	current_user = User(email = request.form.get("emailaddress"), 
-		password = request.form.get("password"))
+	current_user = User(email = request.form.get("emailaddress"))
+	current_user.set_password(user_password = request.form.get("password"))
 	# emailaddress = request.form.get("emailaddress")
 	# password = request.form.get("password")
 	if request.form['submit'] == 'register':
@@ -46,20 +46,21 @@ def account():
 			db.session.commit()
 			session['username'] = current_user.email
 			return render_template("account.html", emailaddress= session['username'], 
-				value="Account Created. Now you can search for books!")
+				value= "Account Created! Welcome")
 		else:
 			return render_template("index.html", message = "Email Address is Taken")
 	elif request.form['submit'] == 'signin':
-		user_found = User.query.filter(and_(User.email == current_user.email,
-			User.password == current_user.password)).first()
+		user_found = User.query.filter(and_(User.email == current_user.email)).first()
 		# user = db.execute("SELECT * FROM USERS WHERE email = :emailaddress AND password = crypt(:password, password)",
 		# 	{"emailaddress": emailaddress, "password": password}).fetchone()
 		if user_found is None:
-			return render_template("index.html", message = "Wrong email or password")
-		else:
+			return render_template("index.html", message = "Incorrect Email and/or Password")
+		elif user_found.check_password(request.form.get("password")):
 			session['username'] = current_user.email
 			return render_template("account.html", emailaddress= session['username'], 
 				value="Welcome back to your account")
+		else:
+			return render_template("index.html", message = "Incorrect Email and/or Password")			
 
 @app.route("/logout", methods = ["POST"])
 def logout():

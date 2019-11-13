@@ -1,6 +1,7 @@
 import os
 from flask import Flask 
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
@@ -15,8 +16,14 @@ class Book(db.Model):
 class User(db.Model):
 	__tablename__ = "users"
 	email = db.Column(db.String, primary_key=True, nullable=False)
-	password = db.Column(db.String, nullable=False)
+	password = db.Column(db.String)
 	review = db.relationship("Review", backref = "User", lazy=True)
+
+	def set_password(self, user_password):
+		self.password = generate_password_hash(user_password)
+
+	def check_password(self, user_password):
+		return check_password_hash(self.password, user_password)
 
 class Review(db.Model):
 	__tablename__ = "reviews"
