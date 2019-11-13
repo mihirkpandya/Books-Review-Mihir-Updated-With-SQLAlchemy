@@ -1,3 +1,5 @@
-# Project 1
+Updated version of the Books-Review-Mihir.
 
-Web Programming with Python and JavaScript
+This one uses SQLAlchemy and Python OOPS concept instead of just regular SQL queries. 
+
+Commented out the older code to show the difference.
