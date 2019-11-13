@@ -31,8 +31,11 @@ db.init_app(app)
 def index():
     return render_template("index.html")
 
-@app.route("/account" , methods = ["POST"])
+@app.route("/account" , methods = ["POST", "GET"])
 def account():
+	if request.method == "GET":
+		return render_template("account.html", emailaddress= session['username'], 
+				value= "Welcome to your Account")
 	current_user = User(email = request.form.get("emailaddress"))
 	current_user.set_password(user_password = request.form.get("password"))
 	# emailaddress = request.form.get("emailaddress")

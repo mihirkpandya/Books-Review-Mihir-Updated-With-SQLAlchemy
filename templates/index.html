@@ -5,8 +5,8 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
 </head>
-<body>
-
+<body class="bg-light">
+<div class="container">
 	<form action="{{ url_for('account')}}" method="post">
 	  <div class="form-group">
 	    <label for="emailaddress1">Email address</label>
@@ -17,9 +17,10 @@
 	    <label for="exampleInputPassword1">Password</label>
 	    <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
 	  </div>
-	  <button type="register" name="submit" value="register" class="btn btn-primary">Register</button>
-	  <button type="singin" name="submit" value="signin" class="btn btn-primary">Sign In</button>
+	  <button type="register" name="submit" value="register" class="btn btn-success">Register</button>
+	  <button type="singin" name="submit" value="signin" class="btn btn-success">Sign In</button>
 	</form> 
+</div>
 
 	<h1>{{message}}</h1>
 

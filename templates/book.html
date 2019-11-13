@@ -7,13 +7,14 @@ Book
 {% block body %}
 
 {% if result %}
-<h1>ISBN: {{result.isbn}}</h1>
-<h1>Title: {{result.title}}</h1>
-<h1>Author: {{result.author}}</h1>
-<h1>Publication: {{result.year}}</h1>
-<h1>Ratings Received on goodreads.com: {{data["books"][0]["ratings_count"]}}</h1>
-<h1>Average Rating Received on goodreads.com: {{data["books"][0]["average_rating"]}}</h1>
-
+<div class="container text-secondary mt-2">
+<h3>ISBN: {{result.isbn}}</h3>
+<h3>Title: {{result.title}}</h3>
+<h3>Author: {{result.author}}</h3>
+<h3>Publication: {{result.year}}</h3>
+<h3>Ratings Received on goodreads.com: {{data["books"][0]["ratings_count"]}}</h3>
+<h3>Average Rating Received on goodreads.com: {{data["books"][0]["average_rating"]}}</h3>
+</div>
 
   {% if reviewed %}
 <!--   <ul>
@@ -23,6 +24,7 @@ Book
 
   </ul> -->
   {% else %}
+  <div class="container mt-5">
   <form action="{{ url_for('book', isbn = result.isbn)}}" method="post">
       <div class="form-group">
         <label for="exampleFormControlSelect1">Rating</label>
@@ -38,26 +40,25 @@ Book
       <label for="exampleFormControlTextarea1">Review</label>
       <textarea class="form-control" name="review" id="exampleFormControlTextarea1" rows="3"></textarea>
       </div>
-      <button type="submit" name="submit" value="review" class="btn btn-primary">Submit Review</button>
+      <button type="submit" name="submit" value="review" class="btn btn-success">Submit Review</button>
     </form> 
-
+  </div>
   {% endif %}
-  <ul>
-    <l1><h1>All Reviews</h1></l1>
-  </ul>
+  <div class="container bg-light mt-5">
+    <h3>All Reviews</h3>
   {% for review in reviews %}
-  <ol>
-    <li>Review By: {{review.user_email}}</li>
+  <div class="container bg-light">
+
+    <strong>Review By: {{review.user_email}}</strong>
     <ul>  
-      <li>Rating: {{review.rating}}</li>
-      <li>Review: {{review.review}}</li>
+      <li><em>Rating:</em> {{review.rating}}</li>
+      <li><em>Comment:</em> {{review.review}}<</li>
     </ul>
-  </ol>
-  {% else %}
-  <ul>
-    <li>No Reviews Found by other users</li>
-  </ul>
+
+  </div>
+
   {% endfor %}
+</div>
 {% else %}
 <h1>This book doesn't exist</h1>
 
