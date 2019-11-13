@@ -4,8 +4,9 @@ This one uses SQLAlchemy and Python OOPS concept instead of just regular SQL que
 
 Commented out the older code to show the difference.
 
-Registration: Users can register on the website, providing (at minimum) a username and password.
+Website Informtion:
 
+Registration: Users can register on the website, providing (at minimum) a username and password.
 
 
 Login: Users, once registered, can log in to the website with their username and password.
