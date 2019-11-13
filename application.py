@@ -1,10 +1,10 @@
 import os
 import requests
 
-from flask import Flask, session, render_template, request, url_for, redirect
+from flask import Flask, session, render_template, request, url_for, redirect, jsonify
 from flask_login import logout_user
 from flask_session import Session
-from sqlalchemy import create_engine, and_, or_
+from sqlalchemy import create_engine, and_, or_, func
 from sqlalchemy.orm import scoped_session, sessionmaker
 from models import *
 
@@ -17,6 +17,8 @@ if not os.getenv("DATABASE_URL"):
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+engine = create_engine(os.getenv("DATABASE_URL"))
+dbs = scoped_session(sessionmaker(bind=engine))
 Session(app)
 
 # Set up database
@@ -107,7 +109,7 @@ def book(isbn):
 	
 	res = requests.get("https://www.goodreads.com/book/review_counts.json", 
 		params={"key": "lU7QgX5713AaMvWBNqdcg", "isbns": isbn})
-
+	data=res.json()
 
 	result = Book.query.filter(Book.isbn==isbn).first()
 	# result = db.execute("SELECT * FROM BOOKS WHERE ISBN = :isbn", 
@@ -116,9 +118,33 @@ def book(isbn):
 	reviews = result.reviews
 	# reviews = db.execute("SELECT * FROM REVIEWS WHERE book_isbn = :isbn AND user_email != :emailaddress", {
 	# 	"isbn" : isbn, "emailaddress": session['username']}).fetchall() 
-	return render_template("book.html", result = result , goodreads = res, 
+	return render_template("book.html", result = result , 
 		your_review = check_for_review, reviews = reviews, reviewed = reviewed, 
-		emailaddress= session['username'])
+		emailaddress= session['username'], data = data)
+
+@app.route("/api/books/<string:isbn>")
+def books_api(isbn):
+	book = Book.query.get(isbn)
+	if book is None:
+		return jsonify({"error" : "Invalid Book ISBN"}), 404
+
+
+	reviews = dbs.query(func.avg(Review.rating)).filter(Review.book_isbn==isbn)
+	count = Review.query.filter(Review.book_isbn==isbn).count()
+	# reviews = dbs.execute("SELECT AVG(rating) FROM REVIEWS WHERE book_isbn = :isbn",
+	# 	{"isbn":isbn}).fetchone()
+	#reviews = Review.query.filter(Review.book_isbn == isbn).avg(Review.rating)
+	#count = len(reviews)
+	
+
+	return jsonify({
+		"isbn" : book.isbn,
+		"title" : book.title,
+		"author" : book.author,
+		"year" : book.year,
+		"ratings_count": count,
+		"avg_rating" :  str(reviews[0][0])
+		})
 
 
 

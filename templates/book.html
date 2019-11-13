@@ -6,14 +6,13 @@ Book
 
 {% block body %}
 
-
 {% if result %}
 <h1>ISBN: {{result.isbn}}</h1>
 <h1>Title: {{result.title}}</h1>
 <h1>Author: {{result.author}}</h1>
 <h1>Publication: {{result.year}}</h1>
-<h1>Ratings Received on goodreads.com: {{goodreads.json().books[0].ratings_count}}</h1>
-<h1>Average Rating Received on goodreads.com: {{goodreads.json().books[0].average_rating}}</h1>
+<h1>Ratings Received on goodreads.com: {{data["books"][0]["ratings_count"]}}</h1>
+<h1>Average Rating Received on goodreads.com: {{data["books"][0]["average_rating"]}}</h1>
 
 
   {% if reviewed %}
