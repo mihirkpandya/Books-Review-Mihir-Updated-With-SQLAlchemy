@@ -1,6 +1,6 @@
 Updated version of the Books-Review-Mihir.
 
-This one uses SQLAlchemy and Python OOPS concept instead of just regular SQL queries. 
+Technologies used: Python 3.6, Flask, SQLAlchemy, HTML, CSS, PostgreSQL, JSON, API’s, Bootstrap 4.
 
 Commented out the older code to show the difference.
 
