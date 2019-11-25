@@ -1,4 +1,5 @@
 Updated version of the Books-Review-Mihir.
+This one uses SQLAlchemy as an ORM to allow Python OOPS classes to interact with the database. 
 
 Technologies used: Python 3.6, Flask, SQLAlchemy, HTML, CSS, PostgreSQL, JSON, API’s, Bootstrap 4.
 
